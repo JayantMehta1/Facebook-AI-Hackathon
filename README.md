@@ -1,2 +1,0 @@
-# FacebookAIHackathon
-FacebookAIHackathon
