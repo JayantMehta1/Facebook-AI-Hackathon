@@ -8,6 +8,7 @@ Implements the Google Cloud Vision API and Facebook Groups API.
 Currently under development. Will be updated by the end of the hackathon in March 2020.
 
 Instructions to set up project:
+
 1) Install and use python 3.8.2
 
 2) The repository is designed as a virutal folder. It needs:

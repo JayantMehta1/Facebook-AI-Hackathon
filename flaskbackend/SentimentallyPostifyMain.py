@@ -126,13 +126,22 @@ def find_description(id, fb_graph):
     
     names.append(profile["name"])
     emails.append(profile["email"])
-    descriptions.append(profile["description"])
-
+    try:
+        descriptions.append(profile["description"])
+    except:
+        descriptions.append("")
+        print("no description, filling it into list as empty string")
+        
 def find_match(image_category, model2, vocab):
     image_and_group_matches = []
     # for i in range(len(groups)):
     for i in range(5):
-        group_category = "%s" %ag_news_label[predict(names[i], model2, vocab, 2)]
+        # Try to use the description of the group during analysis
+        if(descriptions[i] != ""):
+            group_category = "%s" %ag_news_label[predict(descriptions[i], model2, vocab, 2)]
+        # If the description of the group is empty, then use the group name for analysis
+        elif(descriptions[i] == ""):
+            group_category = "%s" %ag_news_label[predict(names[i], model2, vocab, 2)]
         temp = str(i)
         temp += group_category
         print(temp)
@@ -195,11 +204,7 @@ def start():
             print(fb_token)
             # Gets the name of the form
             name = request.form['Title']
-
-            # One option is to pass in the token through this form
-            my_test_token = request.form['Access Token']
-            print(my_test_token)
-
+            
             target = os.path.join(APP_ROOT, 'images\\')
 
             if not os.path.isdir(target):
