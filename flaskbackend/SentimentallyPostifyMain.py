@@ -27,10 +27,10 @@ BATCH_SIZE = 16
 # Set up credentials for Vision
 # Please use your own credentials as a json file
 # Name it "ServiceAccountToken.json" and add it in the "flaslbackend" folder within this project to use Google Vision
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'flaskbackend/ServiceAccountToken.json'
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'flaskbackend/ServiceAccountToken.json'
 
 # Instantiates a client for Vision
-client = vision.ImageAnnotatorClient()
+#client = vision.ImageAnnotatorClient()
 
 # Class for the model using PyTorch
 class TextSentiment(nn.Module):

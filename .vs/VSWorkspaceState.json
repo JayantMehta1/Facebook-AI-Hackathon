@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\flaskbackend",
+    "\\flaskbackend\\Lib\\site-packages",
+    "\\flaskbackend\\Lib\\site-packages\\google",
+    "\\flaskbackend\\Lib\\site-packages\\google\\cloud",
+    "\\flaskbackend\\Lib\\site-packages\\google\\cloud\\vision_v1p3beta1",
+    "\\flaskbackend\\Lib\\site-packages\\google\\cloud\\vision_v1p3beta1\\gapic",
+    "\\reactfrontend",
+    "\\reactfrontend\\public",
+    "\\reactfrontend\\src"
+  ],
+  "SelectedNode": "\\reactfrontend\\public\\index.html",
+  "PreviewInSolutionExplorer": false
+}
