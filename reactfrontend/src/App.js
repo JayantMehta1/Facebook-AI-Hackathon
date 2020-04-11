@@ -38,7 +38,7 @@ function App() {
                     <div class="form-group" >
                         <input type="file" name="file" accept="image/*" multiple />
                     </div>
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Send" />
                 </form>
 
                 <div id="successAlert" class="alert alert-success" role="alert" ></div>
