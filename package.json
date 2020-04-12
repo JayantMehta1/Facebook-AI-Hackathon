@@ -1,0 +1,22 @@
+{
+  "name": "facebook-ai-hackathon",
+  "version": "1.0.0",
+  "description": "None",
+  "main": "index.js",
+  "scripts": {
+    "test": "None"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JayantMehta1/Facebook-AI-Hackathon.git"
+  },
+  "keywords": [
+    "None"
+  ],
+  "author": "Team",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/JayantMehta1/Facebook-AI-Hackathon/issues"
+  },
+  "homepage": "https://github.com/JayantMehta1/Facebook-AI-Hackathon#readme"
+}
