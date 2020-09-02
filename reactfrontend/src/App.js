@@ -132,18 +132,25 @@ class App extends React.Component {
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
-                    <p>
-                        Edit <code>src/App.js</code> and save to reload.
-                    </p>
-                    <p>My Token = {window.token}</p>
-                    <a
+                    <div className="Intro">
+                        <h1>
+                            Facebook AI Hackathon
+                        </h1>
+                        <p>Have an image you want to share with your Facebook Groups? 
+                            Fear no more, Sentimentally Postify will analyze your image and reccomend
+                            the Facebook Groups your image would be relevent to using AI.
+                            A plus point, you can even directly post from here!
+                        </p>
+                        <p> Questions/Comments: Please email me at </p>
+                        <a
                         className="App-link"
-                        href="https://reactjs.org"
+                        href= 'mailto: jayant.mehta@uwaterloo.ca'
                         target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
+                        rel="noopener noreferrer">
+                        jayant.mehta@uwaterloo.ca
+                        </a>
+                    </div>
+        
                     <Facebook />
                 </header>
 
@@ -151,7 +158,7 @@ class App extends React.Component {
                     <div class="row">
                         <div class="col-md-8">
                             <form id="upload-form" method="POST" enctype="multipart/form-data">
-                                <h1>Facebook Hackathon</h1>
+                                <h1>Get started with attaching your image below</h1>
                                 <div class="form-group">
                                     <input name="Title" />
                                 </div>
@@ -161,7 +168,7 @@ class App extends React.Component {
                                 <div class="form-group" >
                                     <input type="file" name="file" accept="image/*" multiple />
                                 </div>
-                                <input id="submit" type="submit" value="Submit" />
+                                <input id="submit" type="submit" value="Submit Image For Facebook Group Reccomendations" />
                             </form>
                             <div className="checkboxContainer">
                                 {this.state.isActive ? (
@@ -191,18 +198,15 @@ class App extends React.Component {
                                 ) : null}
                                 <p>You chose: {checkboxToReturn.map(chosenCheckbox => (<li key={chosenCheckbox}>{chosenCheckbox}</li>))}</p>
                             </div>
-                            <div id="successAlert" class="alert alert-success" role="alert" ></div>
-                            <div id="errorAlert" class="alert alert-danger" role="alert" > </div>
                         </div>
                     </div>
                 </main>
 
                 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
             </div>
         );
     }

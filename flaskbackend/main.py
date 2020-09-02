@@ -1,5 +1,5 @@
 # Imports for Flask and Python Scripts
-from flask import Flask, render_template, url_for, request, flash, jsonify, make_response
+from flask import Flask, render_template, url_for, request, flash, jsonify, make_response, session
 import os
 import io
 
@@ -134,8 +134,8 @@ def find_description(id, fb_graph):
         
 def find_match(image_category, model2, vocab):
     image_and_group_matches = []
-    # for i in range(len(groups)):
-    for i in range(5):
+    for i in range(len(groups)):
+    #for i in range(5):
         # Try to use the description of the group during analysis
         if(descriptions[i] != ""):
             group_category = "%s" %ag_news_label[predict(descriptions[i], model2, vocab, 2)]
@@ -160,7 +160,7 @@ name = ""
 
 @app.route("/")
 def home():
-    return render_template('index.html', title='FaceBook Hackathon', token='Hello, this is React and Flask Combo')
+    return render_template('index.html')
 
 # This POST Request to Flask is used to access the token with all the required permissions from Facebook Login
 @app.route('/', methods=['GET', 'POST'])
@@ -248,27 +248,29 @@ def recognize(name, path, fb_token):
 
     # print(image_text)
 
-    # # Dataset loading
-    # if not os.path.isdir('./flaskbackend/.data'):
-    #     os.mkdir('./flaskbackend/.data')
-    # train_dataset, test_dataset = text_classification.DATASETS['DBpedia'](
-    #     root='./flaskbackend/.data', ngrams=NGRAMS, vocab=None)
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    image_text="example of running in the park and jogging during the day"
 
-    # # Model creation with dataset
-    # VOCAB_SIZE = len(train_dataset.get_vocab())
-    # EMBED_DIM = 32
-    # NUN_CLASS = len(train_dataset.get_labels())
-    # model2 = TextSentiment(VOCAB_SIZE, EMBED_DIM, NUN_CLASS).to(device)
+    # Dataset loading
+    if not os.path.isdir('./flaskbackend/.data'):
+        os.mkdir('./flaskbackend/.data')
+    train_dataset, test_dataset = text_classification.DATASETS['DBpedia'](
+        root='./flaskbackend/.data', ngrams=NGRAMS, vocab=None)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # # Loading state_dict from model 1 to access pretrained information
-    # model2.load_state_dict(torch.load('flaskbackend/model_save.pt'))
-    # model2.eval()
+    # Model creation with dataset
+    VOCAB_SIZE = len(train_dataset.get_vocab())
+    EMBED_DIM = 32
+    NUN_CLASS = len(train_dataset.get_labels())
+    model2 = TextSentiment(VOCAB_SIZE, EMBED_DIM, NUN_CLASS).to(device)
 
-    # vocab = train_dataset.get_vocab()
-    # model2 = model2.to("cpu")
+    # Loading state_dict from model 1 to access pretrained information
+    model2.load_state_dict(torch.load('flaskbackend/model_save.pt', map_location='cpu'))
+    model2.eval()
+
+    vocab = train_dataset.get_vocab()
+    model2 = model2.to("cpu")
     
-    # image_category = "%s" %ag_news_label[predict(image_text, model2, vocab, 2)]
+    image_category = "%s" %ag_news_label[predict(image_text, model2, vocab, 2)]
 
     # Now the facebook stuff starts
     findgroup(graph)
@@ -278,23 +280,76 @@ def recognize(name, path, fb_token):
     for name in names:
         print(name)
 
-    # matching_groups = find_match(image_category, model2, vocab)
-    
-    # answer = "The image is classified by vision as "
-    # answer += image_category
-    # answer += " and the matching groups are "
+    matching_groups = find_match(image_category, model2, vocab)
 
-    # if(len(matching_groups) >= 1):
-    #     for i in range(len(matching_groups)):
-    #         profile = graph.get_object(matching_groups[i], fields = 'name, email, description')
-    #         print(profile["name"])
-    #         answer += profile["name"]
-    #         answer += " "
+    session["matching_groups"] = matching_groups
+    session["FOLDER_PATH"] = FOLDER_PATH
+    session["FILE_NAME"] = FILE_NAME
+
+    answer = "The image is classified by vision as "
+    answer += image_category
+    answer += " and the matching groups are "
+
+    group_names = []
+
+    if(len(matching_groups) >= 1):
+        for i in range(len(matching_groups)):
+            profile = graph.get_object(matching_groups[i], fields = 'name, email, description')
+            name_of_group = str(profile["name"])
+            print(name_of_group)
+            group_names.append(name_of_group)
+
+            answer += name_of_group
+            answer += " "
     #         graph.put_photo(image=open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb'), message='Facebook AI Hackathon Sample Post', album_path=matching_groups[i] + "/photos")
+    return render_template('selectGroups.html', name = 'Bob', matchedGroups=group_names, answer=answer)
 
-    # return answer
+    #return render_template('selectGroups.html', name = 'Bob', matchedGroups=["stew", "pho", "allan"], answer="Hey answer")
 
-    return "Remember to uncomment Google Vision API processing"
+
+@app.route('/test', methods=['GET', 'POST'])
+def finalPost():
+    groupsPostedTo = []
+    # POST request
+    if request.method == 'POST':
+        matching_groups = session["matching_groups"] 
+        FOLDER_PATH = session["FOLDER_PATH"]
+        FILE_NAME = session["FILE_NAME"]
+
+        cookies = request.cookies
+
+        token = cookies.get("facebook_access_token")
+
+        with io.open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb') as image_file:
+            content = image_file.read()
+        
+        image = types.Image(content=content)
+
+        graph = facebook.GraphAPI(token)
+
+
+        print('Incoming data from checkbox, will post')
+        listOfGroupsToPostTo = request.form.getlist("groupFB")
+        print(listOfGroupsToPostTo)
+        print(len(matching_groups))
+
+        for i in range(len(matching_groups)):
+            profile = graph.get_object(matching_groups[i], fields = 'name, email, description')
+            name_of_group = str(profile["name"])
+            print(name_of_group)
+
+            for j in range(len(listOfGroupsToPostTo)):
+                if(name_of_group == listOfGroupsToPostTo[j]):
+                    graph.put_photo(image=open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb'), message='Facebook AI Hackathon Sample Post', album_path=matching_groups[i] + "/photos")
+                    groupsPostedTo.append(name_of_group)
+        
+    if(len(groupsPostedTo) <= 0):
+        return "sorry, no groups posted to"
+
+    return "posted to checked groups"
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

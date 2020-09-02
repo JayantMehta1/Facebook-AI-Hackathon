@@ -1,0 +1,16 @@
+.profilePic {
+    width: 30%;
+    height:auto;
+}
+
+.mainDisplay {
+    border-top: 5vh;
+    border-bottom: 5 vh;
+    padding: 20px;
+    background-color: rgb(27, 129, 189);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}

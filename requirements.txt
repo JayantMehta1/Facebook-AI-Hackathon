@@ -24,7 +24,7 @@ requests==2.23.0
 rsa==4.0
 six==1.14.0
 soupsieve==2.0
-torch==1.4.0
-torchvision==0.5.0
+# torch==1.4.0
+# torchvision==0.5.0
 urllib3==1.25.8
 Werkzeug==1.0.1

@@ -14,9 +14,13 @@ COPY './requirements.txt' .
 
 RUN pip install --upgrade pip
 
-# RUN pip install --no-cache-dir -r requirements.txt
+# RUN export TMPDIR=$HOME/tmp
 
-RUN TMPDIR=/data/vincents/ pip install --cache-dir=/data/vincents/ --build /data/vincents/ requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip install torch===1.4.0 torchvision===0.5.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+# RUN TMPDIR=/data/vincents/ pip install --cache-dir=/data/vincents/ --build /data/vincents/ requirements.txt
 
 COPY . .
 
