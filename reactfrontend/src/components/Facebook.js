@@ -74,7 +74,7 @@ export default class Facebook extends Component {
                 autoLoad={true}
                 fields="name,email,picture"
                 //scope="public_profile,user_friends,email,manage_pages,publish_pages,publish_to_groups,pages_show_list,groups_access_member_info"
-                scope="public_profile,user_friends,email, publish_to_groups,pages_show_list,groups_access_member_info"
+                scope="public_profile,email, publish_to_groups,pages_show_list,groups_access_member_info"
                 onClick={this.componentClicked}
                 callback={this.responseFacebook} />
             )
