@@ -25,7 +25,7 @@ Analyzing the user's Facebook Groups, the machine learning model runs a predicti
 
 
 # User Selects Groups from Relevant Groups
-![Select Groups](./screenshots/SelectGroups.PNG?raw=true "Select Groups")
+![Select Groups](./screenshots/Select.PNG?raw=true "Select Groups")
 
 The user has a manual control of taking over the AI and confirming which groups they would like to post to. This is to protect their privacy and give them that user power of utilizing this web app service to their requirements and needs. The user can select which groups to post to and submit that back to the app.
 
